@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.other_manage.mapper.RouteInfoMapper">
+    
+    <resultMap type="RouteInfo" id="RouteInfoResult">
+        <result property="pointId"    column="point_id"    />
+        <result property="routeId"    column="route_id"    />
+        <result property="lon"    column="lon"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
+
+    <sql id="selectRouteInfoVo">
+        select point_id, route_id, lon, lat from route_info
+    </sql>
+
+    <select id="selectRouteInfoList" parameterType="RouteInfo" resultMap="RouteInfoResult">
+        <include refid="selectRouteInfoVo"/>
+        <where>  
+            <if test="routeId != null "> and route_id = #{routeId}</if>
+            <if test="lon != null "> and lon = #{lon}</if>
+            <if test="lat != null "> and lat = #{lat}</if>
+        </where>
+    </select>
+    
+    <select id="selectRouteInfoByPointId" parameterType="Long" resultMap="RouteInfoResult">
+        <include refid="selectRouteInfoVo"/>
+        where point_id = #{pointId}
+    </select>
+        
+    <insert id="insertRouteInfo" parameterType="RouteInfo" useGeneratedKeys="true" keyProperty="pointId">
+        insert into route_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">route_id,</if>
+            <if test="lon != null">lon,</if>
+            <if test="lat != null">lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeId != null">#{routeId},</if>
+            <if test="lon != null">#{lon},</if>
+            <if test="lat != null">#{lat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRouteInfo" parameterType="RouteInfo">
+        update route_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeId != null">route_id = #{routeId},</if>
+            <if test="lon != null">lon = #{lon},</if>
+            <if test="lat != null">lat = #{lat},</if>
+        </trim>
+        where point_id = #{pointId}
+    </update>
+
+    <delete id="deleteRouteInfoByPointId" parameterType="Long">
+        delete from route_info where point_id = #{pointId}
+    </delete>
+
+    <delete id="deleteRouteInfoByPointIds" parameterType="String">
+        delete from route_info where point_id in 
+        <foreach item="pointId" collection="array" open="(" separator="," close=")">
+            #{pointId}
+        </foreach>
+    </delete>
+</mapper>

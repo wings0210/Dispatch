@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.MainManage.mapper.OrdersMapper">
+    
+    <resultMap type="Orders" id="OrdersResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="componentId"    column="component_id"    />
+        <result property="stationId"    column="station_id"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="number"    column="number"    />
+        <result property="carId"    column="car_id"    />
+    </resultMap>
+    <resultMap type="Station" id="StationResult">
+        <result property="stationId"    column="station_id"    />
+        <result property="stationName"    column="station_name"    />
+    </resultMap>
+    <resultMap type="Car" id="CarResult">
+        <result property="carId"    column="car_id"    />
+        <result property="carType"    column="car_type"    />
+        <result property="carDetail"    column="car_detail"/>
+        <result property="carName"    column="car_name"/>
+        <result property="carStatus"    column="car_status"/>
+        <result property="carRouteName"    column="car_route_name"/>
+    </resultMap>
+    <resultMap type="Component" id="ComponentResult">
+        <result property="componentName"    column="component_name"    />
+        <result property="componentId"    column="component_id"    />
+        <result property="componentType"    column="component_type"    />
+        <result property="view"    column="view"    />
+        <result property="weight"    column="weight"    />
+        <result property="length"    column="length"    />
+        <result property="wide"    column="wide"    />
+        <result property="tall"    column="tall"    />
+
+    </resultMap>
+
+    <resultMap id="PadList" type="MixOrders">
+        <result property="orderId"    column="order_id"    />
+        <result property="componentName"    column="component_name"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="number"    column="number"    />
+        <result property="carName"    column="car_name"    />
+    </resultMap>
+
+    <sql id="selectOrdersVo">
+        select order_id, component_id, station_id, order_status, create_time, number, car_id from orders
+    </sql>
+
+    <select id="selectOrdersList" parameterType="Orders" resultMap="OrdersResult">
+        <include refid="selectOrdersVo"/>
+        <where>  
+            <if test="componentId != null "> and component_id = #{componentId}</if>
+            <if test="stationId != null "> and station_id = #{stationId}</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+            <if test="carId != null "> and car_id = #{carId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrdersByOrderId" parameterType="Long" resultMap="OrdersResult">
+        <include refid="selectOrdersVo"/>
+        where order_id = #{orderId}
+    </select>
+        
+    <insert id="insertOrders" parameterType="Orders" useGeneratedKeys="true" keyProperty="orderId">
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="componentId != null">component_id,</if>
+            <if test="stationId != null">station_id,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="number != null">number,</if>
+            <if test="carId != null">car_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="componentId != null">#{componentId},</if>
+            <if test="stationId != null">#{stationId},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="number != null">#{number},</if>
+            <if test="carId != null">#{carId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrders" parameterType="Orders">
+        update orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="componentId != null">component_id = #{componentId},</if>
+            <if test="stationId != null">station_id = #{stationId},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="carId != null">car_id = #{carId},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteOrdersByOrderId" parameterType="Long">
+        delete from orders where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteOrdersByOrderIds" parameterType="String">
+        delete from orders where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectStation" resultMap="StationResult">
+        select *
+        from station
+    </select>
+    <select id="selectComponent" resultMap="ComponentResult">
+        select *
+        from component
+    </select>
+    <select id="selectCar" resultMap="CarResult">
+        select *
+        from car
+    </select>
+
+
+    <select id="selectErrorOrders" resultMap="OrdersResult">
+        select order_id, component_id, station_id, order_status, create_time, number, car_id from orders
+        where order_status = 3
+    </select>
+
+    <select id="selectScreenIndex" resultMap="OrdersResult">
+        select *
+        from orders
+        where order_status = 1
+    </select>
+    <select id="selectScreenWarn" resultMap="OrdersResult">
+        select *
+        from orders
+        where order_status = 3
+    </select>
+    <select id="selectAssemblyLine" resultMap="OrdersResult">
+        select *
+        from orders
+        where order_status = 2 or order_status = 3
+    </select>
+    <select id="selectStorage" resultMap="OrdersResult">
+        select *
+        from orders
+        where order_status = 1 or order_status = 3
+    </select>
+
+
+
+    <select id="selectReadyList"  resultMap="PadList">
+        select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
+        from orders a
+             left join component b on a.component_id = b.component_id
+             left join station c on a.station_id = c.station_id
+             left join car d on a.car_id = d.car_id
+        where a.order_status = 1
+    </select>
+
+    <select id="selectWarnList" resultMap="PadList">
+        select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
+        from orders a
+                 left join component b on a.component_id = b.component_id
+                 left join station c on a.station_id = c.station_id
+                 left join car d on a.car_id = d.car_id
+        where a.order_status = 3
+    </select>
+
+    <sql id="padTransportingListGeneral">
+        select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
+        from orders a
+                 left join component b on a.component_id = b.component_id
+                 left join station c on a.station_id = c.station_id
+                 left join car d on a.car_id = d.car_id
+
+    </sql>
+    <select id="padTransportingList" parameterType="Orders" resultMap="PadList">
+        <include refid="padTransportingListGeneral"></include>
+        <where>
+                a.order_status = 2
+                <if test="componentId != null "> and a.component_id = #{componentId}</if>
+                <if test="stationId != null "> and a.station_id = #{stationId}</if>
+                <if test="carId != null "> and a.car_id = #{carId}</if>
+
+        </where>
+
+    </select>
+
+    <sql id="padReadyListGeneral" >
+        select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
+        from orders a
+                 left join component b on a.component_id = b.component_id
+                 left join station c on a.station_id = c.station_id
+                 left join car d on a.car_id = d.car_id
+
+    </sql>
+    <select id="padReadyList" parameterType="Orders" resultMap="PadList">
+        <include refid="padReadyListGeneral"></include>
+        <where>
+            a.order_status = 1 or a.order_status = 3
+            <if test="componentId != null "> and a.component_id = #{componentId}</if>
+            <if test="stationId != null "> and a.station_id = #{stationId}</if>
+            <if test="carId != null "> and a.car_id = #{carId}</if>
+        </where>
+    </select>
+
+
+
+
+
+</mapper>

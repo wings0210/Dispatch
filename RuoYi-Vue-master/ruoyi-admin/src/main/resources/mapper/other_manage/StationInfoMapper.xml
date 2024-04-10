@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.other_manage.mapper.StationInfoMapper">
+    
+    <resultMap type="StationInfo" id="StationInfoResult">
+        <result property="infoId"    column="info_id"    />
+        <result property="stationName"    column="station_name"    />
+        <result property="lon"    column="lon"    />
+        <result property="lat"    column="lat"    />
+        <result property="azi"    column="azi"    />
+        <result property="belongRouteName"    column="belong_route_name"    />
+    </resultMap>
+
+    <sql id="selectStationInfoVo">
+        select info_id, station_name, lon, lat, azi, belong_route_name from station_info
+    </sql>
+
+    <select id="selectStationInfoList" parameterType="StationInfo" resultMap="StationInfoResult">
+        <include refid="selectStationInfoVo"/>
+        <where>  
+            <if test="stationName != null  and stationName != ''"> and station_name like concat('%', #{stationName}, '%')</if>
+            <if test="lon != null "> and lon = #{lon}</if>
+            <if test="lat != null "> and lat = #{lat}</if>
+            <if test="azi != null "> and azi = #{azi}</if>
+            <if test="belongRouteName != null  and belongRouteName != ''"> and belong_route_name like concat('%', #{belongRouteName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectStationInfoByInfoId" parameterType="Long" resultMap="StationInfoResult">
+        <include refid="selectStationInfoVo"/>
+        where info_id = #{infoId}
+    </select>
+        
+    <insert id="insertStationInfo" parameterType="StationInfo" useGeneratedKeys="true" keyProperty="infoId">
+        insert into station_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stationName != null and stationName != ''">station_name,</if>
+            <if test="lon != null">lon,</if>
+            <if test="lat != null">lat,</if>
+            <if test="azi != null">azi,</if>
+            <if test="belongRouteName != null and belongRouteName != ''">belong_route_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stationName != null and stationName != ''">#{stationName},</if>
+            <if test="lon != null">#{lon},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="azi != null">#{azi},</if>
+            <if test="belongRouteName != null and belongRouteName != ''">#{belongRouteName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStationInfo" parameterType="StationInfo">
+        update station_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationName != null and stationName != ''">station_name = #{stationName},</if>
+            <if test="lon != null">lon = #{lon},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="azi != null">azi = #{azi},</if>
+            <if test="belongRouteName != null and belongRouteName != ''">belong_route_name = #{belongRouteName},</if>
+        </trim>
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="deleteStationInfoByInfoId" parameterType="Long">
+        delete from station_info where info_id = #{infoId}
+    </delete>
+
+    <delete id="deleteStationInfoByInfoIds" parameterType="String">
+        delete from station_info where info_id in 
+        <foreach item="infoId" collection="array" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </delete>
+</mapper>

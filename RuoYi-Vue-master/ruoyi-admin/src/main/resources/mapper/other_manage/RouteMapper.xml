@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.other_manage.mapper.RouteMapper">
+    
+    <resultMap type="Route" id="RouteResult">
+        <result property="routeId"    column="route_id"    />
+        <result property="routeName"    column="route_name"    />
+        <result property="centerLong"    column="center_long"    />
+        <result property="centerLat"    column="center_lat"    />
+    </resultMap>
+
+    <sql id="selectRouteVo">
+        select route_id, route_name, center_long, center_lat from route
+    </sql>
+
+    <select id="selectRouteList" parameterType="Route" resultMap="RouteResult">
+        <include refid="selectRouteVo"/>
+        <where>  
+            <if test="routeName != null  and routeName != ''"> and route_name like concat('%', #{routeName}, '%')</if>
+            <if test="centerLong != null "> and center_long = #{centerLong}</if>
+            <if test="centerLat != null "> and center_lat = #{centerLat}</if>
+        </where>
+    </select>
+    
+    <select id="selectRouteByRouteId" parameterType="Long" resultMap="RouteResult">
+        <include refid="selectRouteVo"/>
+        where route_id = #{routeId}
+    </select>
+        
+    <insert id="insertRoute" parameterType="Route" useGeneratedKeys="true" keyProperty="routeId">
+        insert into route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">route_name,</if>
+            <if test="centerLong != null">center_long,</if>
+            <if test="centerLat != null">center_lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">#{routeName},</if>
+            <if test="centerLong != null">#{centerLong},</if>
+            <if test="centerLat != null">#{centerLat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRoute" parameterType="Route">
+        update route
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">route_name = #{routeName},</if>
+            <if test="centerLong != null">center_long = #{centerLong},</if>
+            <if test="centerLat != null">center_lat = #{centerLat},</if>
+        </trim>
+        where route_id = #{routeId}
+    </update>
+
+    <delete id="deleteRouteByRouteId" parameterType="Long">
+        delete from route where route_id = #{routeId}
+    </delete>
+
+    <delete id="deleteRouteByRouteIds" parameterType="String">
+        delete from route where route_id in 
+        <foreach item="routeId" collection="array" open="(" separator="," close=")">
+            #{routeId}
+        </foreach>
+    </delete>
+</mapper>

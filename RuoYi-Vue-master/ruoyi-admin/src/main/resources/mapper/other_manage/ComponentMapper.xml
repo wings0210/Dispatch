@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.other_manage.mapper.ComponentMapper">
+    
+    <resultMap type="Component" id="ComponentResult">
+        <result property="componentName"    column="component_name"    />
+        <result property="componentId"    column="component_id"    />
+        <result property="componentType"    column="component_type"    />
+        <result property="view"    column="view"    />
+        <result property="weight"    column="weight"    />
+        <result property="length"    column="length"    />
+        <result property="wide"    column="wide"    />
+        <result property="tall"    column="tall"    />
+    </resultMap>
+
+    <sql id="selectComponentVo">
+        select component_name, component_id, component_type, view, weight, length, wide, tall from component
+    </sql>
+
+    <select id="selectComponentList" parameterType="Component" resultMap="ComponentResult">
+        <include refid="selectComponentVo"/>
+        <where>  
+            <if test="componentName != null  and componentName != ''"> and component_name like concat('%', #{componentName}, '%')</if>
+            <if test="componentType != null "> and component_type = #{componentType}</if>
+            <if test="view != null  and view != ''"> and view = #{view}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="wide != null "> and wide = #{wide}</if>
+            <if test="tall != null "> and tall = #{tall}</if>
+        </where>
+    </select>
+    
+    <select id="selectComponentByComponentId" parameterType="Long" resultMap="ComponentResult">
+        <include refid="selectComponentVo"/>
+        where component_id = #{componentId}
+    </select>
+        
+    <insert id="insertComponent" parameterType="Component" useGeneratedKeys="true" keyProperty="componentId">
+        insert into component
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="componentName != null and componentName != ''">component_name,</if>
+            <if test="componentType != null">component_type,</if>
+            <if test="view != null">view,</if>
+            <if test="weight != null">weight,</if>
+            <if test="length != null">length,</if>
+            <if test="wide != null">wide,</if>
+            <if test="tall != null">tall,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="componentName != null and componentName != ''">#{componentName},</if>
+            <if test="componentType != null">#{componentType},</if>
+            <if test="view != null">#{view},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="length != null">#{length},</if>
+            <if test="wide != null">#{wide},</if>
+            <if test="tall != null">#{tall},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComponent" parameterType="Component">
+        update component
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="componentName != null and componentName != ''">component_name = #{componentName},</if>
+            <if test="componentType != null">component_type = #{componentType},</if>
+            <if test="view != null">view = #{view},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="wide != null">wide = #{wide},</if>
+            <if test="tall != null">tall = #{tall},</if>
+        </trim>
+        where component_id = #{componentId}
+    </update>
+
+    <delete id="deleteComponentByComponentId" parameterType="Long">
+        delete from component where component_id = #{componentId}
+    </delete>
+
+    <delete id="deleteComponentByComponentIds" parameterType="String">
+        delete from component where component_id in 
+        <foreach item="componentId" collection="array" open="(" separator="," close=")">
+            #{componentId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.other_manage.mapper.CarStatusMapper">
+    
+    <resultMap type="CarStatus" id="CarStatusResult">
+        <result property="id"    column="id"    />
+        <result property="carName"    column="car_name"    />
+        <result property="doorLock"    column="door_lock"    />
+        <result property="highBeem"    column="high_beem"    />
+        <result property="hazardLtio"    column="hazard_ltiO"    />
+        <result property="lowBeem"    column="low_beem"    />
+        <result property="sysPowMode"    column="sys_pow_mode"    />
+        <result property="windows"    column="windows"    />
+        <result property="windscreenWiper"    column="windscreen_wiper"    />
+        <result property="angle"    column="angle"    />
+        <result property="buttonA"    column="buttonA"    />
+        <result property="controlMode"    column="control_mode"    />
+        <result property="coorSystem"    column="coor_system"    />
+        <result property="currentStop"    column="current_stop"    />
+        <result property="emergencyButton"    column="emergency_button"    />
+        <result property="faultCode"    column="fault_code"    />
+        <result property="faultDesc"    column="fault_desc"    />
+        <result property="gears"    column="gears"    />
+        <result property="locationStop"    column="location_stop"    />
+        <result property="locationVeh"    column="location_veh"    />
+        <result property="maxSpeed"    column="max_speed"    />
+        <result property="osVersion"    column="os_version"    />
+        <result property="routeName"    column="route_name"    />
+        <result property="routeStop"    column="route_stop"    />
+        <result property="routesVersion"    column="routes_version"    />
+        <result property="signalCar"    column="signal_car"    />
+        <result property="soc"    column="soc"    />
+        <result property="speed"    column="speed"    />
+        <result property="timestamp"    column="timestamp"    />
+        <result property="tirePressure"    column="tire_pressure"    />
+        <result property="tripDistance"    column="trip_distance"    />
+        <result property="tripEta"    column="trip_eta"    />
+        <result property="tripLeftMileage"    column="trip_left_mileage"    />
+        <result property="vehStatus"    column="veh_status"    />
+    </resultMap>
+
+    <sql id="selectCarStatusVo">
+        select id, car_name, door_lock, high_beem, hazard_ltiO, low_beem, sys_pow_mode, windows, windscreen_wiper, angle, buttonA, control_mode, coor_system, current_stop, emergency_button, fault_code, fault_desc, gears, location_stop, location_veh, max_speed, os_version, route_name, route_stop, routes_version, signal_car, soc, speed, timestamp, tire_pressure, trip_distance, trip_eta, trip_left_mileage, veh_status from car_status
+    </sql>
+
+    <select id="selectCarStatusList" parameterType="CarStatus" resultMap="CarStatusResult">
+        <include refid="selectCarStatusVo"/>
+        <where>  
+            <if test="carName != null  and carName != ''"> and car_name like concat('%', #{carName}, '%')</if>
+            <if test="doorLock != null "> and door_lock = #{doorLock}</if>
+            <if test="highBeem != null "> and high_beem = #{highBeem}</if>
+            <if test="hazardLtio != null "> and hazard_ltiO = #{hazardLtio}</if>
+            <if test="lowBeem != null "> and low_beem = #{lowBeem}</if>
+            <if test="sysPowMode != null  and sysPowMode != ''"> and sys_pow_mode = #{sysPowMode}</if>
+            <if test="windows != null "> and windows = #{windows}</if>
+            <if test="windscreenWiper != null "> and windscreen_wiper = #{windscreenWiper}</if>
+            <if test="angle != null "> and angle = #{angle}</if>
+            <if test="buttonA != null "> and buttonA = #{buttonA}</if>
+            <if test="controlMode != null "> and control_mode = #{controlMode}</if>
+            <if test="coorSystem != null "> and coor_system = #{coorSystem}</if>
+            <if test="currentStop != null  and currentStop != ''"> and current_stop = #{currentStop}</if>
+            <if test="emergencyButton != null "> and emergency_button = #{emergencyButton}</if>
+            <if test="faultCode != null "> and fault_code = #{faultCode}</if>
+            <if test="faultDesc != null  and faultDesc != ''"> and fault_desc = #{faultDesc}</if>
+            <if test="gears != null  and gears != ''"> and gears = #{gears}</if>
+            <if test="locationStop != null  and locationStop != ''"> and location_stop = #{locationStop}</if>
+            <if test="locationVeh != null  and locationVeh != ''"> and location_veh = #{locationVeh}</if>
+            <if test="maxSpeed != null "> and max_speed = #{maxSpeed}</if>
+            <if test="osVersion != null "> and os_version = #{osVersion}</if>
+            <if test="routeName != null  and routeName != ''"> and route_name like concat('%', #{routeName}, '%')</if>
+            <if test="routeStop != null  and routeStop != ''"> and route_stop = #{routeStop}</if>
+            <if test="routesVersion != null "> and routes_version = #{routesVersion}</if>
+            <if test="signalCar != null "> and signal_car = #{signalCar}</if>
+            <if test="soc != null "> and soc = #{soc}</if>
+            <if test="speed != null "> and speed = #{speed}</if>
+            <if test="timestamp != null "> and timestamp = #{timestamp}</if>
+            <if test="tirePressure != null "> and tire_pressure = #{tirePressure}</if>
+            <if test="tripDistance != null "> and trip_distance = #{tripDistance}</if>
+            <if test="tripEta != null "> and trip_eta = #{tripEta}</if>
+            <if test="tripLeftMileage != null "> and trip_left_mileage = #{tripLeftMileage}</if>
+            <if test="vehStatus != null "> and veh_status = #{vehStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectCarStatusById" parameterType="Long" resultMap="CarStatusResult">
+        <include refid="selectCarStatusVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="selectLastest" parameterType="String" resultMap="CarStatusResult">
+        select *
+        from car_status
+        where car_status.car_name = carName
+        order by timestamp DESC
+        limit 1
+    </select>
+
+
+        
+    <insert id="insertCarStatus" parameterType="CarStatus" useGeneratedKeys="true" keyProperty="id">
+        insert into car_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carName != null and carName != ''">car_name,</if>
+            <if test="doorLock != null">door_lock,</if>
+            <if test="highBeem != null">high_beem,</if>
+            <if test="hazardLtio != null">hazard_ltiO,</if>
+            <if test="lowBeem != null">low_beem,</if>
+            <if test="sysPowMode != null">sys_pow_mode,</if>
+            <if test="windows != null">windows,</if>
+            <if test="windscreenWiper != null">windscreen_wiper,</if>
+            <if test="angle != null">angle,</if>
+            <if test="buttonA != null">buttonA,</if>
+            <if test="controlMode != null">control_mode,</if>
+            <if test="coorSystem != null">coor_system,</if>
+            <if test="currentStop != null">current_stop,</if>
+            <if test="emergencyButton != null">emergency_button,</if>
+            <if test="faultCode != null">fault_code,</if>
+            <if test="faultDesc != null">fault_desc,</if>
+            <if test="gears != null">gears,</if>
+            <if test="locationStop != null">location_stop,</if>
+            <if test="locationVeh != null">location_veh,</if>
+            <if test="maxSpeed != null">max_speed,</if>
+            <if test="osVersion != null">os_version,</if>
+            <if test="routeName != null">route_name,</if>
+            <if test="routeStop != null">route_stop,</if>
+            <if test="routesVersion != null">routes_version,</if>
+            <if test="signalCar != null">signal_car,</if>
+            <if test="soc != null">soc,</if>
+            <if test="speed != null">speed,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="tirePressure != null">tire_pressure,</if>
+            <if test="tripDistance != null">trip_distance,</if>
+            <if test="tripEta != null">trip_eta,</if>
+            <if test="tripLeftMileage != null">trip_left_mileage,</if>
+            <if test="vehStatus != null">veh_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carName != null and carName != ''">#{carName},</if>
+            <if test="doorLock != null">#{doorLock},</if>
+            <if test="highBeem != null">#{highBeem},</if>
+            <if test="hazardLtio != null">#{hazardLtio},</if>
+            <if test="lowBeem != null">#{lowBeem},</if>
+            <if test="sysPowMode != null">#{sysPowMode},</if>
+            <if test="windows != null">#{windows},</if>
+            <if test="windscreenWiper != null">#{windscreenWiper},</if>
+            <if test="angle != null">#{angle},</if>
+            <if test="buttonA != null">#{buttonA},</if>
+            <if test="controlMode != null">#{controlMode},</if>
+            <if test="coorSystem != null">#{coorSystem},</if>
+            <if test="currentStop != null">#{currentStop},</if>
+            <if test="emergencyButton != null">#{emergencyButton},</if>
+            <if test="faultCode != null">#{faultCode},</if>
+            <if test="faultDesc != null">#{faultDesc},</if>
+            <if test="gears != null">#{gears},</if>
+            <if test="locationStop != null">#{locationStop},</if>
+            <if test="locationVeh != null">#{locationVeh},</if>
+            <if test="maxSpeed != null">#{maxSpeed},</if>
+            <if test="osVersion != null">#{osVersion},</if>
+            <if test="routeName != null">#{routeName},</if>
+            <if test="routeStop != null">#{routeStop},</if>
+            <if test="routesVersion != null">#{routesVersion},</if>
+            <if test="signalCar != null">#{signalCar},</if>
+            <if test="soc != null">#{soc},</if>
+            <if test="speed != null">#{speed},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="tirePressure != null">#{tirePressure},</if>
+            <if test="tripDistance != null">#{tripDistance},</if>
+            <if test="tripEta != null">#{tripEta},</if>
+            <if test="tripLeftMileage != null">#{tripLeftMileage},</if>
+            <if test="vehStatus != null">#{vehStatus},</if>
+         </trim>
+    </insert>
+
+
+
+
+    <update id="updateCarStatus" parameterType="CarStatus">
+        update car_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="carName != null and carName != ''">car_name = #{carName},</if>
+            <if test="doorLock != null">door_lock = #{doorLock},</if>
+            <if test="highBeem != null">high_beem = #{highBeem},</if>
+            <if test="hazardLtio != null">hazard_ltiO = #{hazardLtio},</if>
+            <if test="lowBeem != null">low_beem = #{lowBeem},</if>
+            <if test="sysPowMode != null">sys_pow_mode = #{sysPowMode},</if>
+            <if test="windows != null">windows = #{windows},</if>
+            <if test="windscreenWiper != null">windscreen_wiper = #{windscreenWiper},</if>
+            <if test="angle != null">angle = #{angle},</if>
+            <if test="buttonA != null">buttonA = #{buttonA},</if>
+            <if test="controlMode != null">control_mode = #{controlMode},</if>
+            <if test="coorSystem != null">coor_system = #{coorSystem},</if>
+            <if test="currentStop != null">current_stop = #{currentStop},</if>
+            <if test="emergencyButton != null">emergency_button = #{emergencyButton},</if>
+            <if test="faultCode != null">fault_code = #{faultCode},</if>
+            <if test="faultDesc != null">fault_desc = #{faultDesc},</if>
+            <if test="gears != null">gears = #{gears},</if>
+            <if test="locationStop != null">location_stop = #{locationStop},</if>
+            <if test="locationVeh != null">location_veh = #{locationVeh},</if>
+            <if test="maxSpeed != null">max_speed = #{maxSpeed},</if>
+            <if test="osVersion != null">os_version = #{osVersion},</if>
+            <if test="routeName != null">route_name = #{routeName},</if>
+            <if test="routeStop != null">route_stop = #{routeStop},</if>
+            <if test="routesVersion != null">routes_version = #{routesVersion},</if>
+            <if test="signalCar != null">signal_car = #{signalCar},</if>
+            <if test="soc != null">soc = #{soc},</if>
+            <if test="speed != null">speed = #{speed},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="tirePressure != null">tire_pressure = #{tirePressure},</if>
+            <if test="tripDistance != null">trip_distance = #{tripDistance},</if>
+            <if test="tripEta != null">trip_eta = #{tripEta},</if>
+            <if test="tripLeftMileage != null">trip_left_mileage = #{tripLeftMileage},</if>
+            <if test="vehStatus != null">veh_status = #{vehStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCarStatusById" parameterType="Long">
+        delete from car_status where id = #{id}
+    </delete>
+
+    <delete id="deleteCarStatusByIds" parameterType="String">
+        delete from car_status where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
