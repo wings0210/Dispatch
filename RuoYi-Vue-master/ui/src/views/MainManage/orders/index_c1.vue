@@ -269,7 +269,10 @@ export default {
   },
   mounted() {
     this.scrollIntervalOrders = setInterval(this.scrollResultsOrders, 5000); // 每隔5秒滚动一次
-
+    setInterval(() => {
+      this.fetchRecordsOrders(); // 每隔一段时间从数据库获取数据
+      this.getList();
+    }, 5000); // 每5秒获取一次数据
   },
 
   created() {
@@ -278,10 +281,6 @@ export default {
     this.getComponent();
     this.getCar();
     this.fetchRecordsOrders();
-    setInterval(() => {
-      this.fetchRecordsOrders(); // 每隔一段时间从数据库获取数据
-      this.getList();
-    }, 5000); // 每5秒获取一次数据
   },
 
   methods: {

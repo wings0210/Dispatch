@@ -260,7 +260,6 @@ export default {
     };
   },
   mounted() {
-    this.scrollIntervalOrders = setInterval(this.scrollResultsOrders, 5000); // 每隔5秒滚动一次
   },
 
   created() {

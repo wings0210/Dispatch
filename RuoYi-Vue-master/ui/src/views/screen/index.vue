@@ -85,16 +85,16 @@ export default {
   mounted() {
     this.scrollInterval_2 = setInterval(this.scrollResults_2, 5000); // 每隔5秒滚动一次
     this.scrollInterval_1 = setInterval(this.scrollResults_1, 5000); // 每隔5秒滚动一次
-  },
-  created() {
-    this.fetchOrdersIndex();
-    this.fetchOrdersWarn();
     setInterval(() => {
       this.fetchOrdersIndex(); // 每隔一段时间从数据库获取数据
     }, 5000); // 每5秒获取一次数据
     setInterval(() => {
       this.fetchOrdersWarn(); // 每隔一段时间从数据库获取数据
     }, 5000); // 每5秒获取一次数据
+  },
+  created() {
+    this.fetchOrdersIndex();
+    this.fetchOrdersWarn();
   },
   methods: {
     fetchOrdersIndex() {
