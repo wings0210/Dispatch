@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select station_info.info_id,station_info.station_name,station_info.lon ,station_info.lat ,station_info.azi , station_info.belong_route_name
         from station_info
         left join station on station_info.station_name = station.station_name
-        where station.station_id = 2
+        where station.station_id = 100
 
     </select>
 

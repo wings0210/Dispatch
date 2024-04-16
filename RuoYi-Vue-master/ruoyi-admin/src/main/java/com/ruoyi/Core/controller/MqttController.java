@@ -175,7 +175,7 @@ public class MqttController {
         JSONArray stationList = new JSONArray();
         // 创建一个站点信息
         JSONObject station = new JSONObject();
-        station.put("stationId", 2);
+        station.put("stationId", 100);
         station.put("pt", stationInfo.getLon()+","+stationInfo.getLat());
         station.put("yaw", stationInfo.getAzi());
         station.put("stationName", stationInfo.getStationName());

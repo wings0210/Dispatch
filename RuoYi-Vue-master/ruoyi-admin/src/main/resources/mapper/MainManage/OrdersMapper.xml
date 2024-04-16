@@ -171,6 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.order_status = 3
     </select>
 
+ <!-- 站点侧table查询  -->
     <sql id="padTransportingListGeneral">
         select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
         from orders a
@@ -191,6 +192,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
+    <!-- 仓库侧table查询  -->
     <sql id="padReadyListGeneral" >
         select a.order_id, b.component_name, c.station_name, a.order_status, a.create_time, a.number, d.car_name
         from orders a

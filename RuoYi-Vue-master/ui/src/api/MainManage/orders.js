@@ -166,7 +166,7 @@ export function switch_username(){
       id=12;
       break;
     default:
-      id=0;
+      id=null;
       break;
 
   }
