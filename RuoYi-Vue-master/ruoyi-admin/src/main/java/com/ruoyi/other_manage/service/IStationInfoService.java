@@ -58,4 +58,12 @@ public interface IStationInfoService
      * @return 结果
      */
     public int deleteStationInfoByInfoId(Long infoId);
+
+
+    /**
+     * 查询仓库站点（编号默认为2）
+     * @return
+     */
+    public StationInfo selectStorageStation();
+
 }

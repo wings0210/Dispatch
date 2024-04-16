@@ -24,15 +24,15 @@ public class StationInfo extends BaseEntity
 
     /** 站点经度 */
     @Excel(name = "站点经度")
-    private Long lon;
+    private double lon;
 
     /** 站点纬度 */
     @Excel(name = "站点纬度")
-    private Long lat;
+    private double lat;
 
     /** 站点方向角度 */
     @Excel(name = "站点方向角度")
-    private Long azi;
+    private double azi;
 
     /** 关联线路外键 */
     @Excel(name = "关联线路外键")
@@ -56,30 +56,30 @@ public class StationInfo extends BaseEntity
     {
         return stationName;
     }
-    public void setLon(Long lon) 
+    public void setLon(double lon)
     {
         this.lon = lon;
     }
 
-    public Long getLon() 
+    public double getLon()
     {
         return lon;
     }
-    public void setLat(Long lat) 
+    public void setLat(double lat)
     {
         this.lat = lat;
     }
 
-    public Long getLat() 
+    public double getLat()
     {
         return lat;
     }
-    public void setAzi(Long azi) 
+    public void setAzi(double azi)
     {
         this.azi = azi;
     }
 
-    public Long getAzi() 
+    public double getAzi()
     {
         return azi;
     }

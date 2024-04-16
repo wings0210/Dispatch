@@ -185,10 +185,10 @@
       <el-form-item :label="$t('common.transport_vehicle')" prop="carId">
         <el-select v-model="form_edit.carId" clearable :placeholder="$t('listTip.please_select_car')">
           <el-option
-            v-for="dict in dict.type.car_select"
-            :key="dict.value"
-            :label="dict.label"
-            :value="parseInt(dict.value)"
+            v-for="dict in carlist"
+            :key="dict.carId"
+            :label="dict.carName"
+            :value="dict.carId"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -210,7 +210,7 @@ import {
   updateOrdersStorage,
   get_stationStorage,
   get_carStorage,
-  get_componentStorage, get_spec_ordersStorage, listOrdersStorage
+  get_componentStorage, get_spec_ordersStorage, listOrdersStorage, orderedCar
 } from "@/api/MainManage/orders";
 import SidebarItem from "@/layout/components/Sidebar/SidebarItem.vue";
 import LangSelect from "@/components/LangSelect/index.vue";
@@ -262,7 +262,9 @@ export default {
         orderStatus: [
           { required: true, message: "订单状态不能为空", trigger: "change" }
         ]
-      }
+      },
+
+      dispatching:{}
     };
   },
   mounted() {
@@ -383,7 +385,19 @@ export default {
             this.open_edit = false;
             this.getList();
           });
+          if(this.form_edit.carId != null){
+            let elementIndex = -1;
+            this.carlist.forEach((element, index) => {
+              if (element.carId === this.form_edit.carId) {
+                elementIndex = index;
+              }
+            });
+            this.dispatching.carName = this.carlist[elementIndex]['carName'];
+
+            orderedCar(this.dispatching);
+          }
         }
+
       });
     },
     edit_button() {

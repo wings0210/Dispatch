@@ -32,6 +32,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectStationInfoVo"/>
         where info_id = #{infoId}
     </select>
+
+
+    <select id="selectStorageStation" resultMap="StationInfoResult">
+        select station_info.info_id,station_info.station_name,station_info.lon ,station_info.lat ,station_info.azi , station_info.belong_route_name
+        from station_info
+        left join station on station_info.station_name = station.station_name
+        where station.station_id = 2
+
+    </select>
+
+
+
+
+
+
+
         
     <insert id="insertStationInfo" parameterType="StationInfo" useGeneratedKeys="true" keyProperty="infoId">
         insert into station_info

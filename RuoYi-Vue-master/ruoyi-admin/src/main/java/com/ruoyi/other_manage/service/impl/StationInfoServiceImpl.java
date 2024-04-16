@@ -90,4 +90,11 @@ public class StationInfoServiceImpl implements IStationInfoService
     {
         return stationInfoMapper.deleteStationInfoByInfoId(infoId);
     }
+
+
+
+    @Override
+    public StationInfo selectStorageStation(){
+        return stationInfoMapper.selectStorageStation();
+    }
 }

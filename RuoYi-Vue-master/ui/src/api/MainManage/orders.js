@@ -172,3 +172,11 @@ export function switch_username(){
   }
   return id;
 }
+
+export function orderedCar(data){
+  return request({
+    url: '/MainManage/ordersStorage/dispatching',
+    method: 'post',
+    data: data
+  })
+}

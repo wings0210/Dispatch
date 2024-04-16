@@ -58,4 +58,11 @@ public interface StationInfoMapper
      * @return 结果
      */
     public int deleteStationInfoByInfoIds(Long[] infoIds);
+
+
+    /**
+     * 查询仓库站点（编号默认为2）
+     * @return
+     */
+    public StationInfo selectStorageStation();
 }
