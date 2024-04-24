@@ -7,7 +7,7 @@
 <update id="WarnOrders" parameterType="int">
   update orders
   set orders.order_status = 3
-  where  DATE_SUB(NOW(), INTERVAL #{RestrictTime} MINUTE) > orders.create_time
+  where  DATE_SUB(NOW(), INTERVAL #{RestrictTime} MINUTE) > orders.create_time and orders.order_status != 4
 </update>
 
 

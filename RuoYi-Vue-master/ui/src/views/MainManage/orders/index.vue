@@ -184,7 +184,7 @@ import {
   updateOrdersAssemblyLine,
   get_stationAssemblyLine,
   get_carAssemblyLine,
-  get_componentAssemblyLine, get_spec_ordersAssemblyLine, listOrdersAssemblyLine, switch_username
+  get_componentAssemblyLine, get_spec_ordersAssemblyLine, listOrdersAssemblyLine, switch_username, get_username
 } from "@/api/MainManage/orders";
 
 import SidebarItem from "@/layout/components/Sidebar/SidebarItem.vue";
@@ -196,6 +196,7 @@ export default {
   dicts: ['order_status', 'component_select', 'station_select', 'car_select','line_add','line_edit','storage_edit'],
   data() {
     return {
+      username:"",
       itemsOrders: [],
       scrollIntervalOrders: null,
       carlist: [],
@@ -263,6 +264,7 @@ export default {
   },
 
   created() {
+    this.getSession();
     this.getList();
     this.getStationList();
     this.getComponent();
@@ -274,6 +276,12 @@ export default {
   },
 
   methods: {
+
+    getSession(){
+      get_username().then(response=>{
+        this.username =response;
+      })
+    },
 
 
     getStationList(){
@@ -295,7 +303,7 @@ export default {
     /** 查询订单处理列表 */
     getList() {
       this.loading = true;
-      this.queryParams.stationId=switch_username();
+      this.queryParams.stationId=switch_username(this.username);
       listOrdersAssemblyLine(this.queryParams).then(response => {
         this.ordersList = response.rows;
         this.total = response.total;
@@ -372,7 +380,7 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.form.orderStatus = 1;
-      this.form.stationId = switch_username();
+      this.form.stationId = switch_username(this.username);
       this.$refs["form"].validate(valid => {
         if (valid) {
             addOrdersAssemblyLine(this.form).then(response => {

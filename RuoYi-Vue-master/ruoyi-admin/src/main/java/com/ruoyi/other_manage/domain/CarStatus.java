@@ -78,7 +78,7 @@ public class CarStatus extends BaseEntity
 
     /** fault_code */
     @Excel(name = "fault_code")
-    private Long faultCode;
+    private String faultCode;
 
     /** fault_desc */
     @Excel(name = "fault_desc")
@@ -288,12 +288,12 @@ public class CarStatus extends BaseEntity
     {
         return emergencyButton;
     }
-    public void setFaultCode(Long faultCode) 
+    public void setFaultCode(String faultCode)
     {
         this.faultCode = faultCode;
     }
 
-    public Long getFaultCode() 
+    public String getFaultCode()
     {
         return faultCode;
     }

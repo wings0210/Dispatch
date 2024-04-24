@@ -80,7 +80,10 @@ public class MqttController {
 
         data.put("data",jsonObject);
 
-        mqttService.publish(data);
+        JSONObject sndData = new JSONObject();
+        sndData.put("content",data);
+
+        mqttService.publish(sndData);
 
 
     }
@@ -105,9 +108,11 @@ public class MqttController {
 
         data.put("data",jsonObject);
 
+        JSONObject sndData = new JSONObject();
+        sndData.put("content",data);
 
 
-        mqttService.publish(data);
+        mqttService.publish(sndData);
 
 
     }
@@ -133,8 +138,11 @@ public class MqttController {
         data.put("data",jsonObject);
 
 
+        JSONObject sndData = new JSONObject();
+        sndData.put("content",data);
 
-        mqttService.publish(data);
+
+        mqttService.publish(sndData);
 
 
     }
@@ -193,8 +201,11 @@ public class MqttController {
         data.put("data",jsonObject);
 
 
+        JSONObject sndData = new JSONObject();
 
-        mqttService.publish(data);
+        sndData.put("content",data);
+
+        mqttService.publish(sndData);
 
 
     }

@@ -17,6 +17,8 @@ import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.system.service.ISysMenuService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 登录验证
  * 
@@ -33,6 +35,7 @@ public class SysLoginController
 
     @Autowired
     private SysPermissionService permissionService;
+
 
     /**
      * 登录方法
@@ -70,6 +73,9 @@ public class SysLoginController
         ajax.put("permissions", permissions);
         return ajax;
     }
+
+
+
 
     /**
      * 获取路由信息

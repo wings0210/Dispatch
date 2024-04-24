@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import Cookies from "js-cookie";
+import {getToken} from "@/utils/auth";
 
 // 查询订单处理列表
 export function listOrdersAssemblyLine(query) {
@@ -124,9 +125,14 @@ export function get_spec_ordersStorage(){
     method: 'get'
   })
 }
-
-export function switch_username(){
-  const username = Cookies.get("username");
+export function get_username(){
+  return request({
+    url: '/MainManage/ordersStorage/userinfo',
+    method: 'get'
+  })
+}
+export function switch_username(data){
+  const username = data;
   let id;
   switch (username) {
     case 'station_1':

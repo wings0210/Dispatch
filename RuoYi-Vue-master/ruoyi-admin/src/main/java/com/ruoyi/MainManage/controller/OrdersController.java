@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.MainManage.domain.MixOrders;
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.other_manage.domain.Car;
 import com.ruoyi.other_manage.domain.Component;
 import com.ruoyi.other_manage.domain.Station;
@@ -39,6 +40,21 @@ public class OrdersController extends BaseController
 {
     @Autowired
     private IOrdersService ordersService;
+
+
+    /**
+     * 获取登录用户名
+     * @return
+     */
+
+    @GetMapping("/MainManage/ordersStorage/userinfo")
+    public String getUserInfo()
+    {
+        String username = SecurityUtils.getUsername();
+        return username;
+    }
+
+
 
     /**
      * 查询订单处理列表

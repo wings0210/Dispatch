@@ -113,7 +113,7 @@ public class MqttService {
              carStatus.setCoorSystem(jsonObject.getLong("coor_system"));
              carStatus.setCurrentStop(jsonObject.getString("current_stop"));
              carStatus.setEmergencyButton(jsonObject.getLong("emergencybutton"));
-             carStatus.setFaultCode(jsonObject.getLong("fault_code"));
+             carStatus.setFaultCode(jsonObject.getString("fault_code"));
              carStatus.setFaultDesc(jsonObject.getString("fault_desc"));
              carStatus.setGears(jsonObject.getString("gears"));
              carStatus.setLocationStop(jsonObject.getString("location_stop"));
@@ -147,7 +147,8 @@ public class MqttService {
 
         MqttMessage message = new MqttMessage(msg.toJSONString().getBytes());
         message.setQos(1);
-        String pubTopic = "dc/"+msg.getString("vin")+"/cmd";
+        JSONObject selMsg = msg.getJSONObject("content");
+        String pubTopic = "dc/"+selMsg.getString("vin")+"/cmd";
         this.client.publish(pubTopic, message);
     }
 }
